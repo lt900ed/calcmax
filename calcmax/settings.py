@@ -122,7 +122,7 @@ USE_TZ = True
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'assets')
 ]
-# 追加した
+# 追加したんじゃないかな
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
