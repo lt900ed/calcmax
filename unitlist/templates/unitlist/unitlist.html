@@ -1,0 +1,19 @@
+{% load static %}
+<html>
+	<head>
+		<title>{{ title }}</title>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="{% static 'css/unitlist.css' %}">
+	</head>
+	<body>
+		<div>
+			<h1><a href="../">{{ title }}</a></h1>
+		</div>
+		{% for unit in units %}
+			<div>
+				{{ unit }}</br>
+			</div>
+		{% endfor %}
+	</body>
+</html>

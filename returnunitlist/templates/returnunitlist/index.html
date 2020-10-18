@@ -1,0 +1,62 @@
+{% load static %}
+<html>
+	<head>
+		<title>returnunitlist_index</title>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="{% static 'css/unitlist.css' %}">
+		<script>
+			window.addEventListener("load", function(){
+				document.getElementById("send_data").addEventListener("click", function(){
+					// FormDatasオブジェクトに要素セレクタを渡して宣言する
+					var formDatas = document.getElementById("forminfo");
+					var mixedDatas = new FormData(formDatas);
+
+					// appendメソッドでキーとデータの組をセットする
+					// append("キー(FORMで云うところのname属性値)",  "データ")でデータをセットできる
+					// appendではデータは追加となる
+//					mixedDatas.append("filename",  "test.txt");
+//					mixedDatas.append("filesize",  "10,154B");
+
+					// XHRの宣言
+					var XHR = new XMLHttpRequest();
+
+					// openメソッドにPOSTを指定して送信先のURLを指定します
+					XHR.open("POST", "./", true);
+
+					// sendメソッドにデータを渡して送信を実行する
+					XHR.send(mixedDatas);
+
+					// サーバの応答をonreadystatechangeイベントで検出して正常終了したらデータを取得する
+					XHR.onreadystatechange = function(){
+						if(XHR.readyState == 4 && XHR.status == 200){
+							// POST送信した結果を表示する
+							document.getElementById("response").innerHTML = XHR.responseText;
+							var data = JSON.parse(XHR.responseText);	// 取得した JSON ファイルの中身を変数へ格納
+							var len = data.length;						// JSON のデータ数を取得
+
+							// JSON のデータ数分処理
+							for(var i=0; i<len; i++) {
+								console.log("pk: " + data[i].pk + ", name: " + data[i].fields.sub_name + " " + data[i].fields.jp_name);
+							}
+						}
+					};
+				} ,false);
+			}, false);
+		</script>
+	</head>
+	<body>
+		<h1>returnunitlist_index</h1>
+		<p>
+			<form method="POST" class="post-form" id="forminfo">{% csrf_token %}
+				{{ form.as_p }}
+				<button type="button" class="save btn btn-default" id="send_data">Save</button>
+			</form>
+		</p>
+		<p>
+			<div id="response">
+				<!-- 結果を出力する -->
+			</div>
+		</p>
+	</body>
+</html>
